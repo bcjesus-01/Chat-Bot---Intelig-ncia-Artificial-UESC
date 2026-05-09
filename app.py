@@ -13,7 +13,7 @@ load_dotenv()
 DIRETORIO_DB = "./db_computacao"
 
 st.set_page_config(page_title="Assistente CA da Computação", page_icon="💻")
-st.title("💻 Assistente Virtual do CACIC - Ciência da Computação")
+st.title("💻 Assistente Virtual do CACIC - Ciência da Computação UESC")
 st.caption("Tire suas dúvidas sobre o curso, ACCs, pré-requisitos e mais!")
 
 @st.cache_resource
