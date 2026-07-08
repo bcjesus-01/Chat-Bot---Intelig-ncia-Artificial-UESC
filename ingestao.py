@@ -5,6 +5,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
+from dotenv import load_dotenv
 
 
 # --- CONFIGURAÇÕES ---
@@ -14,14 +15,8 @@ DIRETORIO_DB = "./db_computacao"
 PASTA_PDFS = "./documentos"
 
 
-# Lista de URLs (sites ainda precisam ser manuais ou vir de um arquivo .txt)
-LISTA_URLS = [
-    "https://colcic.uesc.br/", "https://colcic.uesc.br/sobre/", "https://colcic.uesc.br/disciplinas/", 
-    "https://colcic.uesc.br/aproveitamentos/", "https://colcic.uesc.br/complementares/",
-    "https://colcic.uesc.br/extensionistas/", "https://colcic.uesc.br/colegiado/",
-    "https://colcic.uesc.br/email/","https://www.uesc.br/", "https://www.uesc.br/cursos/graduacao/",
-    "https://proex.uesc.br/", "https://proex.uesc.br/extensao.html", "https://proex.uesc.br/acoes.html"
-]
+# Lista de URLs (não funciona bem)
+LISTA_URLS = []
 
 def iniciar_ingestao():
     all_docs = []
@@ -70,7 +65,7 @@ def iniciar_ingestao():
 
     # 4. CRIAÇÃO DO BANCO VETORIAL
     print(f"\n--- 4. Gerando Banco de Dados Vetorial ({len(chunks)} fragmentos) ---")
-    embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
     
     vector_db = Chroma.from_documents(
         documents=chunks, 
