@@ -21,7 +21,7 @@ LISTA_URLS = []
 def iniciar_ingestao():
     all_docs = []
 
-    # 1. VARREDURA AUTOMÁTICA DE PDFs
+    #VARREDURA DOS PDFs
     print(f"--- 1. Varrendo a pasta '{PASTA_PDFS}' em busca de PDFs ---")
     
     # Cria a pasta caso ela não exista ainda
@@ -44,7 +44,7 @@ def iniciar_ingestao():
             except Exception as e:
                 print(f"[ERRO] Falha ao ler {path}: {e}")
 
-    # 2. CARREGAMENTO DE SITES
+    #CARREGAMENTO DE SITES (inutil por enquanto)
     print("\n--- 2. Carregando URLs ---")
     for url in LISTA_URLS:
         try:
@@ -58,12 +58,12 @@ def iniciar_ingestao():
         print("Sem dados para processar.")
         return
 
-    # 3. FRAGMENTAÇÃO
+    #FRAGMENTAÇÃO
     print("\n--- 3. Fragmentando Texto ---")
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
     chunks = text_splitter.split_documents(all_docs)
 
-    # 4. CRIAÇÃO DO BANCO VETORIAL
+    #CRIAÇÃO DO BANCO VETORIAL
     print(f"\n--- 4. Gerando Banco de Dados Vetorial ({len(chunks)} fragmentos) ---")
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
     

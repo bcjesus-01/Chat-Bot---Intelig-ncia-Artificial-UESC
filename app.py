@@ -6,7 +6,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from langchain_huggingface import HuggingFaceEmbeddings
-from operator import itemgetter # <-- Essencial para a nova arquitetura de memória
+from operator import itemgetter #nova arquitetura de memória
 
 load_dotenv() 
 DIRETORIO_DB = "./db_computacao"
@@ -20,14 +20,14 @@ def carregar_ia():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
     db = Chroma(persist_directory=DIRETORIO_DB, embedding_function=embeddings)
     
-    # --- MELHORIA NA BUSCA (MMR) ---
+    # BUSCA (MMR)
     # fetch_k=20: Pega 20 opções no banco
     # k=6: Seleciona as 6 mais relevantes e com maior diversidade de informação
     retriever = db.as_retriever(search_type="mmr", search_kwargs={"k": 6, "fetch_k": 20})
     
     llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.3)
     
-    # --- PROMPT ATUALIZADO ---
+    #PROMPT VERSÃO FINAL
     system_prompt = (
         "Você é o assistente virtual oficial do curso de Ciência da Computação da UESC. "
         "Seu objetivo é dar respostas DETALHADAS e COMPLETAS. "
@@ -81,7 +81,7 @@ if pergunta_usuario:
         placeholder = st.empty()
         placeholder.markdown("Pensando e consultando documentos...")
         
-        # --- PREPARANDO A MEMÓRIA ---
+        # PREPARANDO A MEMÓRIA
         # Pega as últimas 4 mensagens (ignorando a atual) para dar contexto, sem estourar limite
         ultimas_mensagens = st.session_state.mensagens[-5:-1] 
         texto_historico = ""
@@ -92,7 +92,7 @@ if pergunta_usuario:
         if not texto_historico:
             texto_historico = "Nenhuma conversa anterior."
             
-        # --- INVOCANDO A IA ---
+        # INVOCANDO A IA
         texto_resposta = bot.invoke({
             "input": pergunta_usuario,
             "chat_history": texto_historico
